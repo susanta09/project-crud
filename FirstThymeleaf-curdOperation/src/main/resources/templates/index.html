@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div  class="container">
+	 <h1>Employee List</h1>
+	 <a th:href="@{/showNewEmpForm}"  class="btn btn-info" role="button">Add Employee</a>
+	 <table border="1" class="table table-hover">
+	   <thead align="center">
+	    <tr>
+	      <th>Employee id</th>
+	      <th>Employee name</th>
+	      <th>Employee salary</th>
+	      <th>Actions</th>
+	    </tr>
+	   </thead>
+	   <tbody align="center">
+	    <tr  th:each="employee:${list}">
+	      <td th:text="${employee.eid}"></td>
+	      <td th:text="${employee.ename}"></td>
+	      <td th:text="${employee.sal}"></td>
+	      <td><a th:href="@{/updateEmployee/{id}(id=${employee.eid})}" class="btn btn-primary" >Update</a>
+	      <a th:href="@{/deleteEmployee/{id}(id=${employee.eid})}" class="btn btn-danger" >Delete</a></td>
+	    </tr>
+	   </tbody>
+	 </table>
+		<div th:if="${totalPages > 1}">
+			<div class="row col-sm-10">
+				<div class="col-sm-2">Total Rows:[[${totalItems}]]</div>
+				<div class="col-sm-1">
+					<spam th:each="i:${#numbers.sequence(1,totalPages)}"> 
+						<a th:if="${currentPage != i}" th:href="@{'/page/'+${i}}">[[${i}]]</a>
+					<spam th:unless="${currentPage != i}">[[${i}]]</spam>&nbsp;&nbsp;
+				    </spam>
+				</div>
+				<div class="col-sm-1">
+					<a th:if="${currentPage<totalPages}"
+						th:href="@{'/page/' + ${currentPage+1}}">Next</a>
+					<spam th:unless="${currentPage<totalPages}">Next</spam>
+				</div>
+				<div class="col-sm-1">
+					<a th:if="${currentPage<totalPages}"
+						th:href="@{'/page/' + ${totalPages+1}}">Last</a>
+					<spam th:unless="${currentPage<totalPages}">Last</spam>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
